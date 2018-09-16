@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1537109888 source:d:\utn fra\1º año\1º cuatrimestre\tp_laboratorio_2\tp_laboratorio_2\arrayemployees.c
+	<stdio.h>
+	<stdlib.h>
+
+1537111827 source:d:\utn fra\1º año\1º cuatrimestre\tp_laboratorio_2\tp_laboratorio_2\main.c
+	<stdio.h>
+	<stdlib.h>
+
