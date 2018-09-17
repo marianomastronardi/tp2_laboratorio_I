@@ -94,10 +94,17 @@ int findEmployeeById(Employee* list, int len,int id)
     {
         printf("Invalid length");
     }
-    for(int i = 0; i < len; i++)
+    else
     {
-
+        for(int i = 0; i < len; i++)
+        {
+            if(list[i] == id)
+            {
+                ix = id;
+            }
+        }
     }
+
     return ix;
 }
 
@@ -112,6 +119,21 @@ find a employee] - (0) if Ok
  */
 int removeEmployee(Employee* list, int len, int id)
 {
+    if(len <= 0)
+    {
+        printf("Invalid length");
+    }
+    else
+    {
+        for(int i = 0; i < len; i++)
+        {
+            if(list[i] == id)
+            {
+                list[i] = list[i + 1];
+            }
+            return 0;
+        }
+    }
     return -1;
 }
 
@@ -138,6 +160,15 @@ int sortEmployees(Employee* list, int len, int order)
  */
 int printEmployees(Employee* list, int length)
 {
+    printf("ID              Name                  LastName      Salary  Sector\n");
+    for(int i = 0; i < length; i++)
+    {
+        if(list[i].isEmpty == 0)
+        {
+            fflush(stdin);
+            printf("%6d %20s %20s %8.2f %4d\n", list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
+        }
+    }
     return 0;
 }
 

@@ -23,6 +23,7 @@ int main()
 
     do
     {
+        system("cls");
         printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n\n");
         scanf("%d", &opcion);
 
@@ -56,14 +57,6 @@ int main()
     }
     while(respuesta == 's');
 
-    printf("ID              Name                  LastName      Salary  Sector\n");
-    for(int i = 0; i < MAX_QTY; i++)
-    {
-        if(e[i].isEmpty == 0)
-        {
-            fflush(stdin);
-            printf("%6d %20s %20s %8.2f %4d\n", e[i].id, e[i].name, e[i].lastName, e[i].salary, e[i].sector);
-        }
-    }
+    printEmployees(e, MAX_QTY);
     return 0;
 }
