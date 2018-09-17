@@ -1,5 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define MAX_QTY 1000
 
@@ -17,41 +21,57 @@ int main()
 {
     struct Employee empleado, e[MAX_QTY];
     int opcion;
-    /*
-    empleado.id = 0;
-    strcpy(empleado.name, "mariano");
-    strcpy(empleado.lastName , "mastronardi");
-    empleado.salary = 2.4;
-    empleado.sector = 54;
-    empleado.isEmpty = 0;
-    */
+    int ix;
+    char name[20];
+    char lastname[20];
+    float salary;
+    int sector;
+    char respuesta;
 
     initEmployees(e, MAX_QTY);
 
-    opcion = gets(printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n\n"));
-
-    switch(opcion)
+    do
     {
-    case 1:
-        break;
-    case 2:
-        break;
-    case 3:
-        break;
-    default:
-        break;
+        printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n\n");
+        scanf("%d", &opcion);
+
+        switch(opcion)
+        {
+        case 1:
+            ix = rand();
+            printf("Ingrese un nombre\n");
+            scanf("%s", name);
+            fflush(stdin);
+            printf("Ingrese un apellido\n");
+            scanf("%s", lastname);
+            fflush(stdin);
+            printf("Ingrese un salario\n");
+            scanf("%f", &salary);
+            printf("Ingrese un sector\n");
+            scanf("%d", &sector);
+            addEmployee(e, MAX_QTY, ix, name, lastname, salary, sector);
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
+        default:
+            break;
+        }
+        fflush(stdin);
+        printf("Desea continuar? [s/n]\n");
+        scanf("%c", &respuesta);
     }
-    /*
-    e[0].id = 0;
-    strcpy(e[0].name, "mariano");
-    strcpy(e[0].lastName , "mastronardi");
-    e[0].salary = 2.4;
-    e[0].sector = 54;
-    e[0].isEmpty = 0;
-    */
+    while(respuesta == 's');
 
-    //printf("id %d - name %s - lastname %s - salary %.2f - sector %d isEmpty %d", empleado.id, empleado.name, empleado.lastName, empleado.salary, empleado.sector, empleado.isEmpty);
-
-    printf("id %d - name %s - lastname %s - salary %.2f - sector %d isEmpty %d", e[0].id, e[0].name, e[0].lastName, e[0].salary, e[0].sector, e[0].isEmpty);
+    printf("ID          Name                    LastName    Salary  Sector\n");
+    for(int i = 0; i < MAX_QTY; i++)
+    {
+        if(e[i].isEmpty == 0)
+        {
+            fflush(stdin);
+            printf("%4d %20s %20s %6.2f %4d\n", e[i].id, e[i].name, e[i].lastName, e[i].salary, e[i].sector);
+        }
+    }
     return 0;
 }

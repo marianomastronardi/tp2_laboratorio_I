@@ -2,16 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <time.h>
+#include <stdlib.h>
 
 struct Employee
 {
- int id;
- char name[51];
- char lastName[51];
- float salary;
- int sector;
- int isEmpty;
-}typedef Employee;
+    int id;
+    char name[51];
+    char lastName[51];
+    float salary;
+    int sector;
+    int isEmpty;
+} typedef Employee;
 
 /** \brief To indicate that all position in the array are empty,
  * this function put the flag (isEmpty) in TRUE in all
@@ -23,10 +25,11 @@ struct Employee
  */
 int initEmployees(Employee* list, int len)
 {
-    for(int i = 0; i < len; i++){
+    for(int i = 0; i < len; i++)
+    {
         list[i].isEmpty = 1;
     }
- return 0;
+    return 0;
 }
 
 /** \brief add in a existing list of employees the values received as parameters
@@ -42,17 +45,24 @@ int initEmployees(Employee* list, int len)
  */
 int addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector)
 {
-    if(strlen(name) > 0 && strlen(lastName) > 0 && salary > 0 && sector > 0){
-        if(len > 0){
-            printf("Invalid length");
+    //if(strlen(name) > 0 && strlen(lastName) > 0 && salary > 0 && sector > 0){
+    printf("salario %f", salary);
+    if(list != NULL)
+    {
+        if(len <= 0)
+        {
+            printf("Invalid length\n");
         }
-        else{
+        else
+        {
             //Agrego Empleado
-            for(int i = 0; i < len; i++){
-                if(list[i].isEmpty == 1){
-                    list[i].id = i;
+            for(int i = 0; i < len; i++)
+            {
+                if(list[i].isEmpty == 1)
+                {
+                    list[i].id = id;
                     strcpy(list[i].name, name);
-                    strcpy(list[i].lastName , lastName);
+                    strcpy(list[i].lastName, lastName);
                     list[i].salary = salary;
                     list[i].sector = sector;
                     list[i].isEmpty = 0;
@@ -61,11 +71,12 @@ int addEmployee(Employee* list, int len, int id, char name[],char lastName[],flo
             }
         }
     }
-    else{
-        printf("NULL pointer");
+    else
+    {
+        printf("NULL pointer\n");
     }
-    printf("without free");
- return -1;
+    printf("without free\n");
+    return -1;
 }
 
 /** \brief find an Employee by Id en returns the index position in array.
@@ -79,7 +90,16 @@ pointer received or employee not found]
  */
 int findEmployeeById(Employee* list, int len,int id)
 {
- return NULL;
+    int ix = -1;
+    if(len <= 0)
+    {
+        printf("Invalid length");
+    }
+    for(int i = 0; i < len; i++)
+    {
+
+    }
+    return ix;
 }
 
 /** \brief Remove a Employee by Id (put isEmpty Flag in 1)
@@ -93,7 +113,7 @@ find a employee] - (0) if Ok
  */
 int removeEmployee(Employee* list, int len, int id)
 {
- return -1;
+    return -1;
 }
 
 /** \brief Sort the elements in the array of employees, the argument order
@@ -107,7 +127,7 @@ indicate UP or DOWN order
  */
 int sortEmployees(Employee* list, int len, int order)
 {
- return 0;
+    return 0;
 }
 
 /** \brief print the content of employees array
@@ -119,6 +139,6 @@ int sortEmployees(Employee* list, int len, int order)
  */
 int printEmployees(Employee* list, int length)
 {
- return 0;
+    return 0;
 }
 
