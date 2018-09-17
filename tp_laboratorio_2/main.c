@@ -4,18 +4,9 @@
 #include <ctype.h>
 #include <time.h>
 #include <stdlib.h>
+#include "ArrayEmployees.h"
 
 #define MAX_QTY 1000
-
-struct Employee
-{
-    int id;
-    char name[51];
-    char lastName[51];
-    float salary;
-    int sector;
-    int isEmpty;
-};
 
 int main()
 {
@@ -49,6 +40,7 @@ int main()
             scanf("%f", &salary);
             printf("Ingrese un sector\n");
             scanf("%d", &sector);
+
             addEmployee(e, MAX_QTY, ix, name, lastname, salary, sector);
             break;
         case 2:
@@ -64,13 +56,13 @@ int main()
     }
     while(respuesta == 's');
 
-    printf("ID          Name                    LastName    Salary  Sector\n");
+    printf("ID              Name                  LastName      Salary  Sector\n");
     for(int i = 0; i < MAX_QTY; i++)
     {
         if(e[i].isEmpty == 0)
         {
             fflush(stdin);
-            printf("%4d %20s %20s %6.2f %4d\n", e[i].id, e[i].name, e[i].lastName, e[i].salary, e[i].sector);
+            printf("%6d %20s %20s %8.2f %4d\n", e[i].id, e[i].name, e[i].lastName, e[i].salary, e[i].sector);
         }
     }
     return 0;

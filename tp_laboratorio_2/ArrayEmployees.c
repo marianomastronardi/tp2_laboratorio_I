@@ -46,7 +46,6 @@ int initEmployees(Employee* list, int len)
 int addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector)
 {
     //if(strlen(name) > 0 && strlen(lastName) > 0 && salary > 0 && sector > 0){
-    printf("salario %f", salary);
     if(list != NULL)
     {
         if(len <= 0)
