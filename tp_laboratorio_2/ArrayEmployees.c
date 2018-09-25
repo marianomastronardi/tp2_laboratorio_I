@@ -25,9 +25,23 @@ struct Employee
  */
 int initEmployees(Employee* list, int len)
 {
-    for(int i = 0; i < len; i++)
+    if(list == NULL)
     {
-        list[i].isEmpty = 1;
+        return -1;
+    }
+    else
+    {
+        if(len <= 0)
+        {
+            return -1;
+        }
+        else
+        {
+            for(int i = 0; i < len; i++)
+            {
+                list[i].isEmpty = 1;
+            }
+        }
     }
     return 0;
 }
@@ -51,6 +65,7 @@ int addEmployee(Employee* list, int len, int id, char name[],char lastName[],flo
         if(len <= 0)
         {
             printf("Invalid length\n");
+            return -1;
         }
         else
         {
@@ -73,6 +88,7 @@ int addEmployee(Employee* list, int len, int id, char name[],char lastName[],flo
     else
     {
         printf("NULL pointer\n");
+        return -1;
     }
     printf("without free\n");
     return -1;
@@ -90,19 +106,29 @@ pointer received or employee not found]
 int findEmployeeById(Employee* list, int len,int id)
 {
     int ix = -1;
-    if(len <= 0)
+    if(list == NULL)
     {
-        printf("Invalid length");
+        printf("NULL pointer");
     }
     else
     {
-        for(int i = 0; i < len; i++)
+        if(len <= 0)
         {
-            if(list[i] == id)
+            printf("Invalid length");
+        }
+        else
+        {
+            for(int i = 0; i < len; i++)
             {
-                ix = id;
+                if(list[i].id == id)
+                {
+                    ix = i;
+                }
             }
         }
+    }
+    if(ix == -1){
+        printf("Employee not Found");
     }
 
     return ix;
@@ -122,18 +148,25 @@ int removeEmployee(Employee* list, int len, int id)
     if(len <= 0)
     {
         printf("Invalid length");
+        return -1;
+    }
+    else if(list == NULL){
+        printf("NULL pointer");
+        return -1;
     }
     else
     {
         for(int i = 0; i < len; i++)
         {
-            if(list[i] == id)
+            if(list[i].id == id)
             {
-                list[i] = list[i + 1];
+                //list[i] = list[i + 1];
+                list[i].isEmpty = 1;
             }
             return 0;
         }
     }
+    printf("Can't find Employee");
     return -1;
 }
 
@@ -148,6 +181,28 @@ indicate UP or DOWN order
  */
 int sortEmployees(Employee* list, int len, int order)
 {
+    if(len == 0){
+        printf("Invalid length");
+        return -1;
+    }
+    else if(list == NULL){
+        printf("NULL pointer");
+        return -1;
+    }
+    else{
+        switch(order)
+        {
+        case 0:
+            //DOWN
+            break;
+        case 1:
+            //UP
+            break;
+        default:
+            printf("Invalid order option");
+            return -1;
+        }
+    }
     return 0;
 }
 
