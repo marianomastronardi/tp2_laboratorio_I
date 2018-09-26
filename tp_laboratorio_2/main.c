@@ -184,6 +184,14 @@ int main()
     return 0;
 }
 
+/** \brief muestra el monto total de salarios, el promedio de salarios y todos los empleados que superen el promedio con su salario
+ *
+ * \param lista de empleados
+ * \param tamaño
+ * \return void
+ *
+ */
+
 void TotalPromedioSalarios (Employee e[], int len)
 {
     float prom = 0;
@@ -217,6 +225,10 @@ void TotalPromedioSalarios (Employee e[], int len)
     printf("Cantidad de Empleados que superan el promedio: %d\n", salariomayorapromedio);
 }
 
+/** \brief devuelve el ID ingresado por el usuario
+ * \return  int id
+ *
+ */
 int getIDEmployee()
 {
     int id;
@@ -224,6 +236,15 @@ int getIDEmployee()
     scanf("%d", &id);
     return id;
 }
+
+/** \brief muestra el mensaje segun de donde provenga la llamada
+ *
+ * \param int id de retorno
+ * \param int origen de la llamada
+ * \param int [0] - No hay empleados // [1] - hay empleados
+ * \return
+ *
+ */
 
 void showMessage(int idret, int from, int hayempleados)
 {
@@ -267,6 +288,14 @@ void showMessage(int idret, int from, int hayempleados)
     }
 }
 
+/** \brief verifica si hay empleados en el array
+ *
+ * \param lista de empleados
+ * \param int tamaño
+ * \return [0] - NO hay empleados // [1] - hay empleados
+ *
+ */
+
 int hayEmpleados(Employee e[], int tam)
 {
     int ret = FALSE;
@@ -283,6 +312,12 @@ int hayEmpleados(Employee e[], int tam)
     return ret;
 }
 
+/** \brief muestra el menu y devuelve la opcion ingresada por el usuario
+ *
+ * \return int opcion
+ *
+ */
+
 int showMenuAndGetOption()
 {
     int opcion;
@@ -292,8 +327,23 @@ int showMenuAndGetOption()
     printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n4.INFORMAR\n\n");
     scanf("%d", &opcion);
 
+    while(opcion < 1 || opcion > 4)
+    {
+        fflush(stdin);
+        system("cls");
+        printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n4.INFORMAR\n\n");
+        scanf("%d", &opcion);
+    }
+
     return opcion;
 }
+
+/** \brief devuelve el indice del array donde se aloja el id de empleado ingresado por el usuario
+ *
+ * \param lista de empleados
+ * \return int indice
+ *
+ */
 
 int getindex(Employee e[])
 {
@@ -306,13 +356,31 @@ int getindex(Employee e[])
     return ix;
 }
 
+/** \brief devuelve la opcion ingresada por el usuario para modificar un campo del empleado
+ * \return int opcion del campo a editar
+ *
+ */
+
 int getOptionEdit()
 {
     int option;
     printf("Ingrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n");
     scanf("%d", &option);
+
+    while(option < 1 || option > 4)
+    {
+        printf("Opcion incorrecta.\nIngrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n");
+        scanf("%d", &option);
+    }
+
     return option;
 }
+
+/** \brief devuelve el orden en que el usuario selecciono ordenar la lista
+ *
+ * \return int [0] - DOWN // [1] UP
+ *
+ */
 
 int getOrder()
 {
@@ -321,6 +389,12 @@ int getOrder()
     scanf("%d", &order);
     return order;
 }
+
+/** \brief devuelve la respuesta seleccionada por el usuario
+ *
+ * \return char respuesta [s/n]
+ *
+ */
 
 char getRespuesta()
 {
