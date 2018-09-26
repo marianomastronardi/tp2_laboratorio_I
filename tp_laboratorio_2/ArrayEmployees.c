@@ -5,7 +5,14 @@
 #include <time.h>
 #include <stdlib.h>
 
-struct Employee
+#define FALSE 0
+#define TRUE 1
+#define RET_ERROR -1
+#define RET_SUCCESS 0
+#define DOWN 0
+#define UP 1
+
+struct
 {
     int id;
     char name[51];
@@ -25,25 +32,16 @@ struct Employee
  */
 int initEmployees(Employee* list, int len)
 {
-    if(list == NULL)
+    int ret = RET_ERROR;
+    if(list != NULL && len > 0)
     {
-        return -1;
-    }
-    else
-    {
-        if(len <= 0)
+        for(int i = 0; i < len; i++)
         {
-            return -1;
+            list[i].isEmpty = TRUE;
         }
-        else
-        {
-            for(int i = 0; i < len; i++)
-            {
-                list[i].isEmpty = 1;
-            }
-        }
+        ret = RET_SUCCESS;
     }
-    return 0;
+    return ret;
 }
 
 /** \brief add in a existing list of employees the values received as parameters
@@ -59,39 +57,27 @@ int initEmployees(Employee* list, int len)
  */
 int addEmployee(Employee* list, int len, int id, char name[],char lastName[],float salary,int sector)
 {
-    //if(strlen(name) > 0 && strlen(lastName) > 0 && salary > 0 && sector > 0){
-    if(list != NULL)
+    int ret = RET_ERROR;
+    if(list != NULL && len > 0)
     {
-        if(len <= 0)
+        //Agrego Empleado
+        for(int i = 0; i < len; i++)
         {
-            printf("Invalid length\n");
-            return -1;
-        }
-        else
-        {
-            //Agrego Empleado
-            for(int i = 0; i < len; i++)
+            if(list[i].isEmpty == TRUE)
             {
-                if(list[i].isEmpty == 1)
-                {
-                    list[i].id = id;
-                    strcpy(list[i].name, name);
-                    strcpy(list[i].lastName, lastName);
-                    list[i].salary = salary;
-                    list[i].sector = sector;
-                    list[i].isEmpty = 0;
-                    return 0;
-                }
+                list[i].id = id + i;
+                strcpy(list[i].name, name);
+                strcpy(list[i].lastName, lastName);
+                list[i].salary = salary;
+                list[i].sector = sector;
+                list[i].isEmpty = FALSE;
+                ret = RET_SUCCESS;
+                break;
             }
         }
     }
-    else
-    {
-        printf("NULL pointer\n");
-        return -1;
-    }
-    printf("without free\n");
-    return -1;
+
+    return ret;
 }
 
 /** \brief find an Employee by Id en returns the index position in array.
@@ -105,33 +91,20 @@ pointer received or employee not found]
  */
 int findEmployeeById(Employee* list, int len,int id)
 {
-    int ix = -1;
-    if(list == NULL)
+    int ret = RET_ERROR;
+    if(list != NULL && len > 0)
     {
-        printf("NULL pointer");
-    }
-    else
-    {
-        if(len <= 0)
+        for(int i = 0; i < len; i++)
         {
-            printf("Invalid length");
-        }
-        else
-        {
-            for(int i = 0; i < len; i++)
+            if(list[i].id == id && list[i].isEmpty == FALSE)
             {
-                if(list[i].id == id)
-                {
-                    ix = i;
-                }
+                ret = i;
+                break;
             }
         }
     }
-    if(ix == -1){
-        printf("Employee not Found");
-    }
 
-    return ix;
+    return ret;
 }
 
 /** \brief Remove a Employee by Id (put isEmpty Flag in 1)
@@ -145,29 +118,20 @@ find a employee] - (0) if Ok
  */
 int removeEmployee(Employee* list, int len, int id)
 {
-    if(len <= 0)
-    {
-        printf("Invalid length");
-        return -1;
-    }
-    else if(list == NULL){
-        printf("NULL pointer");
-        return -1;
-    }
-    else
+    int ret = RET_ERROR;
+    if(len > 0 && list != NULL)
     {
         for(int i = 0; i < len; i++)
         {
             if(list[i].id == id)
             {
-                //list[i] = list[i + 1];
-                list[i].isEmpty = 1;
+                list[i].isEmpty = TRUE;
+                ret = RET_SUCCESS;
+                break;
             }
-            return 0;
         }
     }
-    printf("Can't find Employee");
-    return -1;
+    return ret;
 }
 
 /** \brief Sort the elements in the array of employees, the argument order
@@ -181,29 +145,59 @@ indicate UP or DOWN order
  */
 int sortEmployees(Employee* list, int len, int order)
 {
-    if(len == 0){
-        printf("Invalid length");
-        return -1;
-    }
-    else if(list == NULL){
-        printf("NULL pointer");
-        return -1;
-    }
-    else{
+    int ret = RET_ERROR;
+    Employee aux;
+    if(len > 0 && list != NULL)
+    {
         switch(order)
         {
-        case 0:
-            //DOWN
+        case DOWN:
+            for(int i = 0; i < len - 1; i++)
+            {
+                for(int j = i + 1; j < len; j++)
+                {
+                    if(strcmp(list[j].lastName, list[i].lastName) > 0)
+                    {
+                        aux = list[i];
+                        list[i] = list[j];
+                        list[j] = aux;
+                    }
+                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector > list[i].sector)
+                    {
+                        aux = list[i];
+                        list[i] = list[j];
+                        list[j] = aux;
+                    }
+                }
+            }
+            ret = RET_SUCCESS;
             break;
-        case 1:
-            //UP
+        case UP:
+            for(int i = 0; i < len - 1; i++)
+            {
+                for(int j = i + 1; j < len; j++)
+                {
+                    if(strcmp(list[j].lastName, list[i].lastName) < 0)
+                    {
+                        aux = list[i];
+                        list[i] = list[j];
+                        list[j] = aux;
+                    }
+                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector < list[i].sector)
+                    {
+                        aux = list[i];
+                        list[i] = list[j];
+                        list[j] = aux;
+                    }
+                }
+            }
+            ret = RET_SUCCESS;
             break;
         default:
             printf("Invalid order option");
-            return -1;
         }
     }
-    return 0;
+    return ret;
 }
 
 /** \brief print the content of employees array
@@ -215,15 +209,21 @@ int sortEmployees(Employee* list, int len, int order)
  */
 int printEmployees(Employee* list, int length)
 {
-    printf("ID              Name                  LastName      Salary  Sector\n");
-    for(int i = 0; i < length; i++)
+    int ret = RET_ERROR;
+    if(length > 0)
     {
-        if(list[i].isEmpty == 0)
+        printf("ID              Name                  LastName      Salary  Sector\n");
+        for(int i = 0; i < length; i++)
         {
-            fflush(stdin);
-            printf("%6d %20s %20s %8.2f %4d\n", list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
+            if(list[i].isEmpty == FALSE)
+            {
+                fflush(stdin);
+                printf("%6d %20s %20s %8.2f %4d\n", list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
+            }
         }
+        ret = RET_SUCCESS;
     }
-    return 0;
+
+    return ret;
 }
 
