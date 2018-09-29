@@ -32,6 +32,7 @@ int getindex(Employee[]);
 int getOptionEdit();
 int getOrder();
 char getRespuesta();
+int findFreePlace(Employee[], int);
 
 int main()
 {
@@ -60,28 +61,38 @@ int main()
 
         case ALTA:
 
-            ix = MAX_QTY;
-            printf("Ingrese un nombre\n");
-            scanf("%s", name);
-            fflush(stdin);
-            printf("Ingrese un apellido\n");
-            scanf("%s", lastname);
-            fflush(stdin);
-            printf("Ingrese un salario\n");
-            scanf("%f", &salary);
-            printf("Ingrese un sector\n");
-            scanf("%d", &sector);
-
-            r = addEmployee(e, MAX_QTY, ix, name, lastname, salary, sector);
-            if(r == RET_SUCCESS)
+            if(findFreePlace(e, MAX_QTY) == RET_SUCCESS)
             {
-                flaghayempleado = TRUE;
+                ix = MAX_QTY;
+                printf("Ingrese un nombre\n");
+                scanf("%s", name);
+                fflush(stdin);
+                printf("Ingrese un apellido\n");
+                scanf("%s", lastname);
+                fflush(stdin);
+                printf("Ingrese un salario\n");
+                scanf("%f", &salary);
+                printf("Ingrese un sector\n");
+                scanf("%d", &sector);
+
+                r = addEmployee(e, MAX_QTY, ix, name, lastname, salary, sector);
+
+
+                if(r == RET_SUCCESS)
+                {
+                    flaghayempleado = TRUE;
+                }
+                else
+                {
+                    flaghayempleado = FALSE;
+                }
+                showMessage(r, ALTA, flaghayempleado);
             }
             else
             {
-                flaghayempleado = FALSE;
+                printf("Array lleno.\n\n");
             }
-            showMessage(r, ALTA, flaghayempleado);
+
             break;
 
         case MODI:
@@ -153,13 +164,13 @@ int main()
                 r = sortEmployees(e, MAX_QTY, orden);
                 if(r == RET_ERROR)
                 {
-                    printf("Error al ordenar la lista de empleados.");
+                    printf("Error al ordenar la lista de empleados.\n\n");
                 }
 
                 r = printEmployees(e, MAX_QTY);
                 if(r == RET_ERROR)
                 {
-                    printf("Error al imprimir los empleados.");
+                    printf("Error al imprimir los empleados.\n\n");
                 }
 
                 //2. Total y promedio de los salarios, y cuántos empleados superan el salario promedio.
@@ -173,7 +184,6 @@ int main()
             }
             break;
         default:
-            printf("Opcion incorrecta\n");
             break;
         }
 
@@ -211,7 +221,7 @@ void TotalPromedioSalarios (Employee e[], int len)
 
     for(int i = 0; i < len; i++)
     {
-        if(e[i].isEmpty == 0)
+        if(e[i].isEmpty == FALSE)
         {
             if(e[i].salary > prom)
             {
@@ -220,9 +230,9 @@ void TotalPromedioSalarios (Employee e[], int len)
         }
     }
 
-    printf("Total Salarios: %.2f\n", total);
-    printf("Promedio Salarios: %.2f\n", prom);
-    printf("Cantidad de Empleados que superan el promedio: %d\n", salariomayorapromedio);
+    printf("Total Salarios: %.2f\n\n", total);
+    printf("Promedio Salarios: %.2f\n\n", prom);
+    printf("Cantidad de Empleados que superan el promedio: %d\n\n", salariomayorapromedio);
 }
 
 /** \brief devuelve el ID ingresado por el usuario
@@ -259,13 +269,13 @@ void showMessage(int idret, int from, int hayempleados)
             switch(from)
             {
             case ALTA:
-                printf("Error al dar de alta el Empleado.");
+                printf("Error al dar de alta el Empleado.\n\n");
                 break;
             case MODI:
-                printf("No se encuentra el ID del Empleado.\n");
+                printf("No se encuentra el ID del Empleado.\n\n");
                 break;
             case BAJA:
-                printf("No se encuentra el ID del Empleado.\n");
+                printf("No se encuentra el ID del Empleado.\n\n");
                 break;
             case INFO:
                 break;
@@ -277,11 +287,11 @@ void showMessage(int idret, int from, int hayempleados)
         {
             if(from == ALTA)
             {
-                printf("Error al dar de alta el Empleado.\n");
+                printf("Error al dar de alta el Empleado.\n\n");
             }
             else
             {
-                printf("Error al ejecutar la transacción. Debe dar de alta un Empleado.\n");
+                printf("Error al ejecutar la transacción. Debe dar de alta un Empleado.\n\n");
             }
 
         }
@@ -329,6 +339,8 @@ int showMenuAndGetOption()
 
     while(opcion < 1 || opcion > 4)
     {
+        printf("Opcion incorrecta\n\n");
+        system("pause");
         fflush(stdin);
         system("cls");
         printf("Ingrese una opcion \n1.ALTAS\n2.MODIFICAR\n3.BAJA\n4.INFORMAR\n\n");
@@ -364,12 +376,12 @@ int getindex(Employee e[])
 int getOptionEdit()
 {
     int option;
-    printf("Ingrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n");
+    printf("Ingrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n\n");
     scanf("%d", &option);
 
     while(option < 1 || option > 4)
     {
-        printf("Opcion incorrecta.\nIngrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n");
+        printf("Opcion incorrecta.\nIngrese un valor segun el  campo que desea modificar: \n\n1 - NOMBRE\n2 - APELLIDO\n3 - SALARIO\n4 - SECTOR\n\n");
         scanf("%d", &option);
     }
 
@@ -411,4 +423,19 @@ char getRespuesta()
         scanf("%c", &respuesta);
     }
     return respuesta;
+}
+
+int findFreePlace(Employee e[], int tam)
+{
+    int ret = RET_ERROR;
+
+    for(int i = 0; i < tam; i++)
+    {
+        if(e[i].isEmpty == TRUE)
+        {
+            ret = RET_SUCCESS;
+        }
+    }
+
+    return ret;
 }

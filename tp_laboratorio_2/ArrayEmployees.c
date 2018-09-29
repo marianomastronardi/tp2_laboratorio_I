@@ -156,13 +156,13 @@ int sortEmployees(Employee* list, int len, int order)
             {
                 for(int j = i + 1; j < len; j++)
                 {
-                    if(strcmp(list[j].lastName, list[i].lastName) > 0)
+                    if(strcmp(list[j].lastName, list[i].lastName) > 0 && list[j].isEmpty == FALSE && list[i].isEmpty == FALSE)
                     {
                         aux = list[i];
                         list[i] = list[j];
                         list[j] = aux;
                     }
-                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector > list[i].sector)
+                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector > list[i].sector  && list[j].isEmpty == FALSE && list[i].isEmpty == FALSE)
                     {
                         aux = list[i];
                         list[i] = list[j];
@@ -177,13 +177,13 @@ int sortEmployees(Employee* list, int len, int order)
             {
                 for(int j = i + 1; j < len; j++)
                 {
-                    if(strcmp(list[j].lastName, list[i].lastName) < 0)
+                    if(strcmp(list[j].lastName, list[i].lastName) < 0  && list[j].isEmpty == FALSE && list[i].isEmpty == FALSE)
                     {
                         aux = list[i];
                         list[i] = list[j];
                         list[j] = aux;
                     }
-                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector < list[i].sector)
+                    else if(strcmp(list[j].lastName, list[i].lastName) == 0 && list[j].sector < list[i].sector  && list[j].isEmpty == FALSE && list[i].isEmpty == FALSE)
                     {
                         aux = list[i];
                         list[i] = list[j];
@@ -212,7 +212,7 @@ int printEmployees(Employee* list, int length)
     int ret = RET_ERROR;
     if(length > 0)
     {
-        printf("ID              Name                  LastName      Salary  Sector\n");
+        printf("\n\nID              Name                  LastName      Salary  Sector\n");
         for(int i = 0; i < length; i++)
         {
             if(list[i].isEmpty == FALSE)
@@ -221,6 +221,7 @@ int printEmployees(Employee* list, int length)
                 printf("%6d %20s %20s %8.2f %4d\n", list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
             }
         }
+        printf("\n\n");
         ret = RET_SUCCESS;
     }
 
